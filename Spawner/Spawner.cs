@@ -26,7 +26,7 @@ public class Spawner : MonoBehaviour
     {
         bool isWork = true;
 
-        int second = 2;
+        int delay = 2;
 
         while (isWork)
         {
@@ -34,7 +34,7 @@ public class Spawner : MonoBehaviour
 
             Instantiate(_enemy, _spawnPoints[spawnPointNumber]);
 
-            yield return new WaitForSeconds(second);
+            yield return new WaitForSeconds(delay);
         }
     }
 }
