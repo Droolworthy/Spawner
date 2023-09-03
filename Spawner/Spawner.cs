@@ -1,24 +1,40 @@
-﻿using UnityEngine;
+using System.Collections;
+using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private Enemy _enemy;
     [SerializeField] private Transform[] _spawnPoints;
-    [SerializeField] private float _secondBetweenSpawn;
+    [SerializeField] private float _speed;
 
-    private float _elapsedTime = 0;
+    private Coroutine _coroutine;
+
+    private void Start()
+    {
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        _coroutine = StartCoroutine(Play());
+    }
 
     private void Update()
     {
-        _elapsedTime += Time.deltaTime;
+        transform.Translate(Vector3.right * _speed * Time.deltaTime);
+    }   
 
-        if (_elapsedTime >= _secondBetweenSpawn)
+    private IEnumerator Play()
+    {
+        bool isWork = true;
+
+        int second = 2;
+
+        while (isWork)
         {
-            _elapsedTime = 0;
-
             int spawnPointNumber = Random.Range(0, _spawnPoints.Length);
 
-            Instantiate(_enemyPrefab, _spawnPoints[spawnPointNumber]);
+            Instantiate(_enemy, _spawnPoints[spawnPointNumber]);
+
+            yield return new WaitForSeconds(second);
         }
     }
 }
